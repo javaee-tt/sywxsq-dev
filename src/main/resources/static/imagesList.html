@@ -40,7 +40,7 @@
         <td>{{pojo.createTime}}</td>
         <td>{{pojo.createBy}}</td>
         <td>{{pojo.imgTitle}}</td>
-        <td><img src="{{pojo.imgUrl}}" width="100px" height="100px"/></td>
+        <td><img src="{{pojo.imgUrl}}" ng-click="imagesBig($index)" width="100px" height="100px" data-toggle="modal" data-target="#imagesBig"/></td>
         <td>{{pojo.imgDescription}}</td>
         <td>{{pojo.sort}}</td>
         <!--调用图片删除方法-->
@@ -48,5 +48,12 @@
     </tr>
 </table>
 <tm-pagination conf="paginationConf"></tm-pagination>
+
+<div class="modal fade" id="imagesBig" tabindex="-1" role="dialog" aria-labelledby="imagesBig" aria-hidden="true">
+    <div class="modal-dialog">
+            <img src="{{imagesBigPlus}}" width="500px" height="500px"/>
+    </div>
+</div>
+
 </body>
 </html>
