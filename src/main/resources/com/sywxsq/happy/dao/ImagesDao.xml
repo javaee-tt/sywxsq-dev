@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.sywxsq.happy.dao.ImagesDao">
+
+    <insert id="addImages" parameterType="com.sywxsq.happy.pojo.Images">
+         INSERT INTO
+            images
+          SET
+              createTime = #{createTime},
+              createBy = #{createBy},
+              updateTime = #{updateTime},
+              updateBy = #{updateBy},
+              userId = #{userId},
+              imgUrl = #{imgUrl},
+              imgTitle = #{imgTitle},
+              imgDescription = #{imgDescription},
+              sort = #{sort}
+    </insert>
+
+    <update id="addSortOne" parameterType="com.sywxsq.happy.pojo.Images">
+        UPDATE
+            images
+        SET
+            sort = sort+1
+        WHERE
+            createBy = #{createBy}
+            AND
+            sort &gt;= #{sort}
+    </update>
+
+    <delete id="deleteImages">
+        DELETE
+        FROM
+          images
+        WHERE
+          id =#{id}
+    </delete>
+
+    <select id="exists" resultType="com.sywxsq.happy.pojo.Images" parameterType="com.sywxsq.happy.pojo.Images">
+          SELECT
+              id,
+              createTime,
+              createBy,
+              updateTime,
+              updateBy,
+              imgUrl,
+              imgDescription,
+              sort
+          FROM
+              images
+          WHERE
+              createBy = #{createBy}
+              AND
+              sort = #{sort}
+    </select>
+
+
+    <select id="findAllImages" resultType="com.sywxsq.happy.pojo.Images">
+        SELECT
+          id,
+          createTime,
+          createBy,
+          updateTime,
+          updateBy,
+          imgTitle,
+          imgUrl,
+          imgDescription,
+          sort
+        FROM
+          images
+    </select>
+
+
+</mapper>

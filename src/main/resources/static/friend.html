@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="js/bootstrap.min.js"></script>
+    <!--加载angularjs-->
+    <script src="js/angularjs/angular.min.js"></script>
+    <!--导入imagesjs-->
+    <script src="js/Friend.js"></script>
+
+</head>
+<body ng-app="myapp" ng-controller="FriendController" ng-init="selectUserClassifyList()">
+
+<button class="btn btn-primary" data-toggle="modal" data-target="#addClassify">新增分类</button>
+<button class="btn btn-primary" data-toggle="modal" data-target="#deleteClassify">删除分类</button>
+
+<div style="width: 600px;margin: 0 auto" >
+
+    <ul class="list-group" style="list-style: none">
+
+        <li>
+            <label for="friendName">姓名:</label>
+            <input type="text" class="form-control" id="friendName" style="width: 200px" ng-model="entity.friendName">
+        </li>
+        <li>
+            <label for="classifyId">分类:</label>
+            <select class="form-control" style="width: 200px" id="classifyId"  ng-model="entity.classifyId" ng-options="x.id as x.classifyName for x in ClassifyList"></select></li>
+        </li>
+        <li>
+            <label for="sex">性别:</label>
+            <input type="text" class="form-control" id="sex" style="width: 200px" ng-model="entity.sex"></li>
+        <li>
+            <label for="relation">关系:</label>
+            <select class="form-control" style="width: 200px" id="relation" ng-init="entity.relation = relationList[0]" ng-model="entity.relation" ng-options="x for x in relationList"></select></li>
+        <li>
+            <label for="phone">手机:</label>
+            <input type="text" class="form-control" id="phone" style="width: 200px" ng-model="entity.phone">
+        </li>
+        <li>
+            <label for="wechat">微信:</label>
+            <input type="text" class="form-control" id="wechat" style="width: 200px" ng-model="entity.wechat">
+        </li>
+        <li>
+            <label for="qq">Q Q:</label>
+            <input type="text" class="form-control" id="qq" style="width: 200px" ng-model="entity.qq">
+        </li>
+        <li>
+            <label for="site">地址:</label>
+            <input type="text" class="form-control" id="site" style="width: 200px" ng-model="entity.site">
+        </li>
+    </ul>
+    <button class="btn btn-primary" type="button" ng-click="addFriend()">确认</button>
+    <button class="btn btn-primary" type="button" ng-click="entity={}">重置</button>
+</div>
+
+
+
+<!----------新增分类modal开始---------->
+<div class="modal fade" id="addClassify" tabindex="-1" role="dialog" aria-labelledby="addClassifyLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="addClassifyLabel">新增分类</h4>
+            </div>
+            <div class="modal-body">
+                        <label for="classifyName">分类名称:</label>
+                        <input type="text" class="form-control" id="classifyName" style="width: 200px" ng-model="calssify.classifyName">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="addClassify()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!----------新增分类modal结束---------->
+<!----------删除分类modal开始---------->
+<div class="modal fade" id="deleteClassify" tabindex="-1" role="dialog" aria-labelledby="deleteClassifyLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="deleteClassifyLabel">删除分类</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <tr>
+                        <td>序号</td>
+                        <td>分类名称</td>
+                    </tr>
+                    <tr ng-repeat="pojo in ClassifyList">
+                        <td>{{$index+1}}</td>
+                        <td>{{pojo.classifyName}}</td>
+                        <td><button type="button" class="btn btn-default">删除</button></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!----------删除分类modal结束---------->
+
+</body>
+</html>

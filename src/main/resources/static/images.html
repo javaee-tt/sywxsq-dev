@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap 101 Template</title>
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
+    <script src="js/bootstrap.min.js"></script>
+    <!--加载angularjs-->
+    <script src="js/angularjs/angular.min.js"></script>
+    <!--导入imagesjs-->
+    <script src="js/images.js"></script>
+
+</head>
+<body ng-app="myapp" ng-controller="imagesController">
+    <table>
+        <tr>
+            <td>
+                <!--文件上传-->
+                <input type="file" id="file" />             
+                <!--调用图片上传功能-->
+                <button class="btn btn-primary" type="button" ng-click="uploadFile()" >上传</button>   
+            </td>
+            <td>
+                <!--绑定广告图片地址-->
+                <img src="{{entity.imgUrl}}" width="200px" height="100px">
+            </td>
+        </tr>  
+    </table>
+    <ul class="list-group">
+        <li>图片标题:<input type="text" ng-model="entity.imgTitle"></li>
+        <li>图片描述:<input type="text" ng-model="entity.imgDescription"></li>
+        <li>首推显示:<input type="text" ng-model="entity.sort"></li>
+    </ul>
+
+    <button class="btn btn-primary" type="button" ng-click="uploadImages()">上传图片</button>
+</body>
+</html>

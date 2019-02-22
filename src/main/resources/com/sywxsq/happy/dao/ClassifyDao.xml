@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--命名空间应该是对应接口的包名+接口名 -->
+<mapper namespace="com.sywxsq.happy.dao.ClassifyDao">
+
+    <insert id="addClassify">
+      INSERT INTO
+        classify
+      SET
+        createTime = #{createTime},
+        createBy = #{createBy},
+        userId = #{userId},
+        classifyName = #{classifyName}
+    </insert>
+
+
+    <select id="selectUserClassifyList" resultType="com.sywxsq.happy.pojo.ClassifyResult">
+        SELECT
+          id,
+          classifyName
+        FROM
+          classify
+        WHERE
+          userId = #{userId}
+    </select>
+</mapper>
