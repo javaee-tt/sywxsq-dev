@@ -14,11 +14,15 @@
     <script src="js/bootstrap.min.js"></script>
     <!--加载angularjs-->
     <script src="js/angularjs/angular.min.js"></script>
+    <!--引入angularjs分页插件-->
+    <script src="js/angularjs/pagination.js"></script>
+    <!--分页查询样式-->
+    <link rel="stylesheet" href="js/angularjs/pagination.css">
     <!--导入imagesjs-->
     <script src="js/images.js"></script>
 
 </head>
-<body ng-app="myapp" ng-controller="imagesController" ng-init="findAllImages()">
+<body ng-app="myapp" ng-controller="imagesController" ng-init="reloadList()">
 
 <table class="table table-hover">
     <tr>
@@ -43,5 +47,6 @@
         <td><button ng-click="deleteImages(pojo.id,pojo.imgUrl)">删除</button>  <button>修改</button></td>
     </tr>
 </table>
+<tm-pagination conf="paginationConf"></tm-pagination>
 </body>
 </html>

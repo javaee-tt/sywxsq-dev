@@ -5,7 +5,7 @@ mymodule.controller("FriendController",function ($scope,$http) {
 
     $scope.entity={};
 
-    //新增同学/同事/朋友
+    //新增通讯录
     $scope.addFriend=function () {
         $http.post("../FriendController/addFriend",$scope.entity).success(function (response) {
             if(response.success){//如果为true
@@ -27,7 +27,7 @@ mymodule.controller("FriendController",function ($scope,$http) {
             $scope.reloadList();//数据变更就重新加载分页查询
         }}
 
-        //查询所有同学/同事/朋友
+        //查询所有通讯录
     $scope.findAllFriend=function(pageNumber,pageSize){
         $http.post("../FriendController/findAllFriend?pageNumber="+pageNumber+"&"+"pageSize="+pageSize).success(function (response){
             if(response.success){

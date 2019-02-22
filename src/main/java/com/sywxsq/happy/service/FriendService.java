@@ -41,7 +41,7 @@ public class FriendService {
     }
 
     /**
-     * 查询当前用户的所有朋友录
+     * 分页查询当前用户的所有朋友录
      * @return
      * @param pageNumber
      * @param pageSize

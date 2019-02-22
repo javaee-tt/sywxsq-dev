@@ -1,6 +1,7 @@
 package com.sywxsq.happy.controller;
 
 import com.sywxsq.happy.pojo.Images;
+import com.sywxsq.happy.pojo.PageResult;
 import com.sywxsq.happy.pojo.SywxsqException;
 import com.sywxsq.happy.pojo.SywxsqResult;
 import com.sywxsq.happy.service.ImagesService;
@@ -43,13 +44,15 @@ public class ImagesController {
     }
 
     /**
-     * 查询所有的相片
+     * 分页查询所有的相片
      * @return
      */
     @RequestMapping("/findAllImages")
-    public SywxsqResult findAllImages(){
-        List<Images> images =imagesService.findAllImages();
-        return new SywxsqResult(true,"查询成功",images);
+    public SywxsqResult findAllImages(Integer pageNumber,Integer pageSize){
+        PageResult images = imagesService.findAllImages(pageNumber, pageSize);
+        sywxsqResult =new SywxsqResult(true,"查询成功");
+        sywxsqResult.setPageResult(images);
+        return sywxsqResult;
     }
 
     /**

@@ -1,7 +1,10 @@
 package com.sywxsq.happy.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sywxsq.happy.dao.ImagesDao;
 import com.sywxsq.happy.pojo.Images;
+import com.sywxsq.happy.pojo.PageResult;
 import com.sywxsq.happy.pojo.SywxsqException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,12 +28,15 @@ public class ImagesService {
     private SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
-     * 查询全部相片
+     * 分页查询全部相片
      * @return
      */
-    public List<Images> findAllImages() {
-        List<Images> images = imagesDao.findAllImages();
-        return images;
+    public PageResult findAllImages(Integer pageNumber, Integer pageSize) {
+        PageHelper.startPage(pageNumber,pageSize);
+        Page<Images> page = (Page<Images>) imagesDao.findAllImages();
+        long total = page.getTotal();
+        List<Images> result = page.getResult();
+        return new PageResult(total,result);
     }
 
     /**
