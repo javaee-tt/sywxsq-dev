@@ -1,7 +1,10 @@
 package com.sywxsq.happy.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.sywxsq.happy.dao.FriendDao;
 import com.sywxsq.happy.pojo.Friend;
+import com.sywxsq.happy.pojo.PageResult;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,10 +43,21 @@ public class FriendService {
     /**
      * 查询当前用户的所有朋友录
      * @return
+     * @param pageNumber
+     * @param pageSize
      */
-    public List<Friend> findAllImages() {
+    public PageResult findAllFriend(Integer pageNumber, Integer pageSize) {
+        //伪造用户id查询当前用户的所有记录
         String userID="测试人";
-        List<Friend> friendList = friendDao.findAllImages(userID);
-        return friendList;
+        //调用分页查询插件
+        PageHelper.startPage(pageNumber,pageSize);
+        //page<e>可以获取总记录数,和当前记录数
+        Page<Friend> page = (Page<Friend>) friendDao.findAllFriend(userID);
+        //获取总页数
+        long total = page.getTotal();
+        //获取当前的结果集
+        List<Friend> result = page.getResult();
+        //返回结果集
+        return new PageResult(total,result);
     }
 }

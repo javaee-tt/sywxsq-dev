@@ -3,6 +3,7 @@ package com.sywxsq.happy.dao;
 import com.sywxsq.happy.pojo.Classify;
 import com.sywxsq.happy.pojo.ClassifyResult;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -27,4 +28,26 @@ public interface ClassifyDao {
      * @return
      */
     Integer addClassify(Classify classify);
+
+    /**
+     * 当存用户当前新增分类名字是否存在
+     * @param classify
+     * @return
+     */
+    String selectClassifyName(Classify classify);
+
+    /**
+     * 根据用户id和分类id删除分类
+     * @param userId
+     * @param id
+     * @return
+     */
+    Integer deleteClassify(String userId, Integer id);
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    Integer selectClassifyFriend(@Param("userId") String userId, @Param("id") Integer id);
 }

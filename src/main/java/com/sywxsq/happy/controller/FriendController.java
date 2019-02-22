@@ -1,9 +1,6 @@
 package com.sywxsq.happy.controller;
 
-import com.sywxsq.happy.pojo.Friend;
-import com.sywxsq.happy.pojo.Images;
-import com.sywxsq.happy.pojo.SywxsqException;
-import com.sywxsq.happy.pojo.SywxsqResult;
+import com.sywxsq.happy.pojo.*;
 import com.sywxsq.happy.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -50,13 +47,15 @@ public class FriendController {
 
     /**
      * 查询当前用户的朋友录
+     * @param pageNumber 当前页
+     * @param pageSize 当前页显示多少条数据
      * @return
      */
     @RequestMapping("/findAllFriend")
-    public SywxsqResult findAllFriend(){
-        List<Friend> friends =friendService.findAllImages();
+    public SywxsqResult findAllFriend(Integer pageNumber,Integer pageSize){
+        PageResult friend = friendService.findAllFriend(pageNumber, pageSize);
         sywxsqResult = new SywxsqResult(true, "查询成功");
-        sywxsqResult.setFriendList(friends);
+        sywxsqResult.setPageResult(friend);
         return sywxsqResult;
     }
 

@@ -51,4 +51,21 @@ public class ClassifyController {
         }
         return sywxsqResult;
     }
+
+    /**
+     * 删除分类
+     * @param id
+     * @return
+     */
+    @RequestMapping("/deleteClassify")
+    public SywxsqResult deleteClassify(Integer id){
+        boolean b = classifyService.deleteClassify(id);
+        if(b){
+            sywxsqResult = new SywxsqResult(true,"删除分类成功");
+        }else {
+            sywxsqResult = new SywxsqResult(false,"删除分类失败");
+        }
+        return sywxsqResult;
+    }
+
 }

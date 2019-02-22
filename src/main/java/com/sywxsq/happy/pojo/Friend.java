@@ -14,12 +14,12 @@ public class Friend implements Serializable {
 
     private long id; //主键id
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "GMT+8")
     private Date createTime;//创建时间
 
     private String createBy;//创建人
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss" ,timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "GMT+8")
     private Date updateTime;//修改时间
 
     private String updateBy;//修改人
@@ -38,7 +38,7 @@ public class Friend implements Serializable {
 
     private String wechat;//微信
 
-    private Integer qq;//QQ
+    private String qq;//QQ
 
     private String site;//地址
 
@@ -138,11 +138,11 @@ public class Friend implements Serializable {
         this.wechat = wechat;
     }
 
-    public Integer getQq() {
+    public String getQq() {
         return qq;
     }
 
-    public void setQq(Integer qq) {
+    public void setQq(String qq) {
         this.qq = qq;
     }
 

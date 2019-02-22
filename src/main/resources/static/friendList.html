@@ -14,11 +14,14 @@
     <script src="js/bootstrap.min.js"></script>
     <!--加载angularjs-->
     <script src="js/angularjs/angular.min.js"></script>
-    <!--导入imagesjs-->
+    <!--引入angularjs分页插件-->
+    <script src="js/angularjs/pagination.js"></script>
+    <!--分页查询样式-->
+    <link rel="stylesheet" href="js/angularjs/pagination.css">
+    <!--导入模版/控制器/friend.js-->
     <script src="js/Friend.js"></script>
-
 </head>
-<body ng-app="myapp" ng-controller="FriendController" ng-init="findAllFriend()">
+<body ng-app="myapp" ng-controller="FriendController" ng-init="reloadList()">
 
 <table class="table table-hover">
     <tr>
@@ -39,7 +42,7 @@
         <td>{{pojo.createTime}}</td>
         <td>{{pojo.createBy}}</td>
         <td>{{pojo.friendName}}</td>
-        <td>{{pojo.classifyName}}</td>
+        <td>{{pojo.classifyId}}</td>
         <td>{{pojo.sex}}</td>
         <td>{{pojo.relation}}</td>
         <td>{{pojo.phone}}</td>
@@ -50,6 +53,7 @@
         <td><button>删除</button>  <button>修改</button></td>
     </tr>
 </table>
+<tm-pagination conf="paginationConf"></tm-pagination>
 
 </body>
 </html>

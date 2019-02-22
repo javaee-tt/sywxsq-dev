@@ -20,6 +20,8 @@ public class SywxsqResult implements Serializable {
 
     private List<Friend> friendList;//分类
 
+    private PageResult pageResult;//分页查询结果
+
     public SywxsqResult(Boolean success, String message) {
         super();
         this.success = success;
@@ -70,5 +72,13 @@ public class SywxsqResult implements Serializable {
 
     public void setFriendList(List<Friend> friendList) {
         this.friendList = friendList;
+    }
+
+    public PageResult getPageResult() {
+        return pageResult;
+    }
+
+    public void setPageResult(PageResult pageResult) {
+        this.pageResult = pageResult;
     }
 }

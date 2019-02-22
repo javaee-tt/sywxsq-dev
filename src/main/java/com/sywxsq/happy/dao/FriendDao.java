@@ -15,5 +15,5 @@ public interface FriendDao {
 
     Integer addFriend(Friend friend);
 
-    List<Friend> findAllImages(String userID);
+    List<Friend> findAllFriend(String userID);
 }

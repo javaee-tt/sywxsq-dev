@@ -26,12 +26,12 @@
           site = #{site}
     </insert>
 
-    <select id="findAllImages" resultType="com.sywxsq.happy.pojo.Friend">
+    <select id="findAllFriend" resultType="com.sywxsq.happy.pojo.Friend">
         SELECT
             createTime,
             createBy,
             friendName,
-            classifyId,
+            (SELECT classifyName FROM classify AS c WHERE c.id= f.classifyId)AS classifyId,
             sex,
             relation,
             phone,
@@ -39,7 +39,7 @@
             qq,
             site
         FROM
-            friend
+            friend AS f
         WHERE
             userId=#{userId}
     </select>
