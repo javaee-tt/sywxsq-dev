@@ -29,6 +29,8 @@
 <button class="btn btn-primary" data-toggle="modal" data-target="#addClassify">新增分类</button>
 <button class="btn btn-primary" data-toggle="modal" data-target="#deleteClassify">删除分类</button>
 <button class="btn btn-primary" data-toggle="modal"  ng-click="exportExcel()">导出数据</button>
+<button class="btn btn-primary" data-toggle="modal"  data-target="#importExcel">导入数据</button>
+
 
 
 <table class="table table-hover">
@@ -175,6 +177,27 @@
 </div>
 <!----------删除分类modal结束---------->
 
-
+<!----------导入数据开始---------->
+<div class="modal fade" id="importExcel" tabindex="-1" role="dialog" aria-labelledby="importExcelLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="importExcelLabel">导入数据</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="file">文件上传</label>
+                    <input type="file" id="file" />
+                </div>
+                <button class="btn btn-primary" type="button" ng-click="importExcel()" >上传</button> 
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!----------导入数据结束---------->
 </body>
 </html>

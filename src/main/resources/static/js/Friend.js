@@ -1,7 +1,27 @@
 var mymodule=angular.module("myapp",["pagination"]);
 
+
+//service层
+mymodule.service("uploadService",function ($http) {
+
+    this.upload=function () {
+        //基于html5中的对象获取(追加)上传文件
+        var formData = new FormData();
+        //参数一：后端接收文件的参数名称 参数二：获取文件，其中file代表<input type="file" id="file" />中的id
+        formData.append("file",file.files[0]);
+
+        return $http({
+            method:"post",
+            url : "../exportController/importExcel",
+            data : formData,
+            headers : {'Content-Type' : undefined}, //上传文件必须是这个类型，默认text/plain  作用:相当于设置enctype="multipart/form-data"
+            transformRequest : angular.identity  //对整个表单进行二进制序列化
+        })}
+
+});
+
 //controller层
-mymodule.controller("FriendController",function ($scope,$http) {
+mymodule.controller("FriendController",function ($scope,$http,uploadService) {
 
     $scope.entity={};
 
@@ -114,11 +134,41 @@ mymodule.controller("FriendController",function ($scope,$http) {
 
     //导出excel数据
     $scope.exportExcel=function () {
-        $http.post("../exportController/exportExcel").success(function (response) {
-                window.location.href=response;
-        }).error(function (response) {
-            alert(response.message);//弹窗提示错误原因
+        $http({
+            url: '../exportController/exportExcel',
+            method: "GET",//接口方法
+            params: {
+                //接口参数
+            },
+            headers: {
+                'Content-type': 'application/json'
+            },
+            responseType: 'arraybuffer'
+        }).success(function (data, status, headers, config) {
+            var blob = new Blob([data], {type: "application/vnd.ms-excel"});
+            var objectUrl = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            document.body.appendChild(a);
+            a.setAttribute('style', 'display:none');
+            a.setAttribute('href', objectUrl);
+            var filename="同学录.xls";
+            a.setAttribute('download', filename);
+            a.click();
+            URL.revokeObjectURL(objectUrl);
+        }).error(function (data, status, headers, config) {
+            alert(data.message);//弹窗提示错误原因
         })}
 
+    //导入数据importExcel
+    $scope.importExcel=function(){
+        uploadService.upload().success(function(response){
+            if(response.success){//导入成功
+                alert(response.message);//弹窗提示
+            }else {
+                alert(response.message);//弹窗提示
+            }}
+        ).error(function (response) {//错误异常
+            alert(response.message);//弹窗提示
+        })}
 
 })

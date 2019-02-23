@@ -2,13 +2,16 @@ package com.sywxsq.happy.controller;
 
 import com.sywxsq.happy.pojo.Friend;
 import com.sywxsq.happy.pojo.PageResult;
+import com.sywxsq.happy.pojo.SywxsqResult;
 import com.sywxsq.happy.service.FriendService;
 import com.sywxsq.happy.utils.ExcelUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,4 +36,21 @@ public class exportController {
         ExcelUtils.exportExcel(rows,"我的同学录","这是表名",Friend.class,"文件名.xls",response);
     }
 
+    @RequestMapping("/importExcel")
+    public SywxsqResult importExcel(MultipartFile file){
+        //解析excel
+        List<Friend> friendList = ExcelUtils.importExcel(file, 1, 1, Friend.class);
+        //循环遍历 插入到数据
+        for (Friend friend:friendList) {
+            friend.setCreateTime(new Date());
+            friend.setCreateBy("测试人");
+            friend.setUserId("测试人");
+            boolean b = friendService.addFriend(friend);
+            if(b==false){
+                return new SywxsqResult(false,"导入["+friend.getFriendName()+"]失败");
+            }
+        }
+        //返回结果集
+        return new SywxsqResult(true,"导入数据一共["+friendList.size()+"]成功");
+    }
 }

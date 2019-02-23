@@ -16,7 +16,7 @@ mymodule.service("uploadService",function ($http) {
             data : formData,
             headers : {'Content-Type' : undefined}, //上传文件必须是这个类型，默认text/plain  作用:相当于设置enctype="multipart/form-data"
             transformRequest : angular.identity  //对整个表单进行二进制序列化
-        });}
+        })}
 
 });
 
