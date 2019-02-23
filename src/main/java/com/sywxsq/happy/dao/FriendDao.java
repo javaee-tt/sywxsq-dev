@@ -2,6 +2,7 @@ package com.sywxsq.happy.dao;
 
 import com.sywxsq.happy.pojo.Friend;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,4 +17,7 @@ public interface FriendDao {
     Integer addFriend(Friend friend);
 
     List<Friend> findAllFriend(String userID);
+
+    Integer deleteFriend(@Param("userId") String userId, @Param("id") Integer id);
+
 }

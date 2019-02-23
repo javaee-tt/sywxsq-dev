@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.sywxsq.happy.dao.FriendDao;
 import com.sywxsq.happy.pojo.Friend;
 import com.sywxsq.happy.pojo.PageResult;
+import com.sywxsq.happy.pojo.SywxsqException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -59,5 +60,21 @@ public class FriendService {
         List<Friend> result = page.getResult();
         //返回结果集
         return new PageResult(total,result);
+    }
+
+    /**
+     * 根据用户id和通讯录id删除通讯录
+     * @param id
+     * @return
+     */
+    @Transactional
+    public boolean deleteFriend(Integer id) {
+        String userId="测试人";
+        Integer integer = friendDao.deleteFriend(userId,id);
+        if(integer<1){
+            return false;
+        }
+        return true;
+
     }
 }

@@ -45,7 +45,8 @@ public class ClassifyService {
         classify.setUserId("测试人");//用户名
         //首先判断当前用户的分类名字是否有重复
         String classifyName = classifyDao.selectClassifyName(classify);
-        if(!classifyName.equals("") && classifyName!=null){
+        //当String=null 不能调用string的方法 否则会爆空指针异常
+        if(classifyName!=null){
             throw new SywxsqException("当前分类名字["+classifyName+"]已存在,请更改");
         }
         //新增分类

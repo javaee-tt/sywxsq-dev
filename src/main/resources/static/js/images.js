@@ -43,6 +43,7 @@ mymodule.controller("imagesController",function ($scope,$http,uploadService) {
             if(response.success){//上传成功
                 $scope.entity={};//新增成功后,清空数据
                 alert(response.message);//弹窗提示
+                $scope.reloadList();//重新加载分页查询
             }else {
                 alert(response.message);//弹窗提示
             }}
@@ -82,14 +83,20 @@ mymodule.controller("imagesController",function ($scope,$http,uploadService) {
 
      //根据id删除图片和删除linux保存的图片
     $scope.deleteImages=function (id,imgUrl) {
-        $http.post("../ImagesController/deleteImages?id="+id+"&imgUrl="+imgUrl).success(function (response) {
-            if(response.success){
+        if(confirm("你确认删除?")){
+            $http.post("../ImagesController/deleteImages?id="+id+"&imgUrl="+imgUrl).success(function (response) {
+                if(response.success){
+                    alert(response.message);
+                    $scope.reloadList();//删除成功后,重新刷新页面
+                }else {
+                    alert(response.message);
+                }}).error(function (response) {
                 alert(response.message);
-                $scope.findAllImages();//删除成功后,重新刷新页面
-            }else {
-                alert(response.message);
-            }}).error(function (response) {
-                alert(response.message);
-        })}
+            })}}
 
+
+    //图片放大效果
+    $scope.imagesBig=function ($index) {
+        $scope.imagesBigPlus=$scope.list[$index].imgUrl;
+    }
 })

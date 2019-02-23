@@ -26,8 +26,19 @@
           site = #{site}
     </insert>
 
+    <delete id="deleteFriend">
+        DELETE
+        FROM
+            friend
+        WHERE
+            userId=#{userId}
+            AND
+            id = #{id}
+    </delete>
+
     <select id="findAllFriend" resultType="com.sywxsq.happy.pojo.Friend">
         SELECT
+            id,
             createTime,
             createBy,
             friendName,

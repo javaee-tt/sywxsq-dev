@@ -1,5 +1,7 @@
 package com.sywxsq.happy.pojo;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import cn.afterturn.easypoi.excel.annotation.ExcelTarget;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
@@ -12,6 +14,7 @@ import java.util.Date;
  */
 public class Friend implements Serializable {
 
+    @Excel(name="id",orderNum ="0")
     private long id; //主键id
 
     @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "GMT+8")
@@ -24,22 +27,30 @@ public class Friend implements Serializable {
 
     private String updateBy;//修改人
 
+    @Excel(name="姓名",orderNum = "2")
     private String friendName;//姓名
 
     private String userId;//用户id
 
+    @Excel(name="分类名称",orderNum = "3")
     private String classifyId;//分类id
 
+    @Excel(name="性别",orderNum = "4")
     private String sex;//性别
 
+    @Excel(name="关系",orderNum = "5")
     private String relation;//关系
 
+    @Excel(name="手机号码",orderNum = "6",width = 20)
     private String phone;//手机号码
 
+    @Excel(name="微信",orderNum = "7",width = 20)
     private String wechat;//微信
 
+    @Excel(name="QQ",orderNum = "8",width = 20)
     private String qq;//QQ
 
+    @Excel(name="地址",orderNum = "9",width = 40)
     private String site;//地址
 
     public long getId() {

@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>Bootstrap 101 Template</title>
+    <title>相册</title>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <!-- jQuery (Bootstrap 的所有 JavaScript 插件都依赖 jQuery，所以必须放在前边) -->
@@ -23,6 +23,8 @@
 
 </head>
 <body ng-app="myapp" ng-controller="imagesController" ng-init="reloadList()">
+
+<button class="btn btn-primary" data-toggle="modal" data-target="#addImages">新增图片</button>
 
 <table class="table table-hover">
     <tr>
@@ -55,5 +57,37 @@
     </div>
 </div>
 
+
+<!----------新增图片modal开始---------->
+<div class="modal fade" id="addImages" tabindex="-1" role="dialog" aria-labelledby="addImagesLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="addImagesLabel">新增图片</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="file">文件上传</label>
+                    <input type="file" id="file" />
+                </div>
+                <div class="form-group">
+                    <img src="{{entity.imgUrl}}" width="200px" height="100px">
+                </div>
+                <button class="btn btn-primary" type="button" ng-click="uploadFile()" >上传</button> 
+                <ul class="list-group" style="list-style: none">
+                    <li>图片标题:<input type="text" ng-model="entity.imgTitle"></li>
+                    <li>图片描述:<input type="text" ng-model="entity.imgDescription"></li>
+                    <li>首页显示:<input type="text" ng-model="entity.sort" placeholder="数字,从小到大排序"></li>
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button class="btn btn-primary" type="button" ng-click="uploadImages()">提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!----------新增图片modal结束---------->
 </body>
 </html>

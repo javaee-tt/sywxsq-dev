@@ -17,6 +17,8 @@ mymodule.controller("FriendController",function ($scope,$http) {
             alert(response.message);//弹窗提示错误原因
         })}
 
+        //查询当前的通讯录信息
+
     //分页查询配置 (这个对象配置原本就是已经配置好的,不是我们写的)一进页面就查询第一页.
     $scope.paginationConf={
         currentPage:1,//当前页码
@@ -27,7 +29,7 @@ mymodule.controller("FriendController",function ($scope,$http) {
             $scope.reloadList();//数据变更就重新加载分页查询
         }}
 
-        //查询所有通讯录
+    //查询所有通讯录
     $scope.findAllFriend=function(pageNumber,pageSize){
         $http.post("../FriendController/findAllFriend?pageNumber="+pageNumber+"&"+"pageSize="+pageSize).success(function (response){
             if(response.success){
@@ -46,6 +48,9 @@ mymodule.controller("FriendController",function ($scope,$http) {
 
     //定义一个关系组
     $scope.relationList=["同学","老师","朋友","知己","兄弟","亲属"];
+
+    //定义一个性别
+    $scope.sexList=["男","女"];
 
     //查询当前用户的分类
     $scope.selectUserClassifyList=function () {
@@ -77,15 +82,43 @@ mymodule.controller("FriendController",function ($scope,$http) {
     
     //删除分类
     $scope.deleteClassify=function (id) {
-        $http.post("../ClassifyController/deleteClassify?id="+id).success(function (response) {
-            if(response.success){
-                alert(response.message);
-                $scope.selectUserClassifyList();//重新查询分类
-            }else {
-                alert(response.message);//弹窗提示失败
-            }}).error(function (response) {//如果出现错误
+        if(confirm("你确认删除?")){
+            $http.post("../ClassifyController/deleteClassify?id="+id).success(function (response) {
+                if(response.success){
+                    alert(response.message);
+                    $scope.selectUserClassifyList();//重新查询分类
+                }else {
+                    alert(response.message);//弹窗提示失败
+                }}).error(function (response) {//如果出现错误
+                alert(response.message);//弹窗提示错误原因
+            })}}
+
+
+    //根据id删除通信录
+    $scope.deleteFriend=function (id) {
+        if(confirm("你确认删除?")){
+            $http.post("../FriendController/deleteFriend?id="+id).success(function (response) {
+                if(response.success){
+                    alert(response.message);
+                    $scope.reloadList();//重新查询通信录
+                }else {
+                    alert(response.message);//弹窗提示失败
+                }}).error(function (response) {//如果出现错误
+                alert(response.message);//弹窗提示错误原因
+            })}}
+
+            //改变状态值
+    $scope.updateClassifyStatus=function(statu){
+        $scope.calssifyStatus=statu;
+    }
+
+    //导出excel数据
+    $scope.exportExcel=function () {
+        $http.post("../exportController/exportExcel").success(function (response) {
+                window.location.href=response;
+        }).error(function (response) {
             alert(response.message);//弹窗提示错误原因
         })}
-    
-    
+
+
 })
