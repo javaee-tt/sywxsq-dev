@@ -1,11 +1,13 @@
 package com.sywxsq.happy.pojo;
 
+import java.io.Serializable;
+
 /**
  * 分类返回值
  * @author luokangtao
  * @create 2019-02-21 17:01
  */
-public class ClassifyResult {
+public class ClassifyResult implements Serializable {
 
     private long Id; //主键id
 

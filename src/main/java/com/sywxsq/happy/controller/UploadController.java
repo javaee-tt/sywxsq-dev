@@ -32,8 +32,16 @@ public class UploadController {
     @RequestMapping("/uploadImages")
     public SywxsqResult uploadImages(MultipartFile file){
 
-        long size = file.getSize();
-        System.out.println(size);
+        int lastIndexOf = file.getName().lastIndexOf(".")+1;
+        if(lastIndexOf==0){
+            throw new SywxsqException("文件格式有误"+file.getName());
+        }
+        String substring = file.getName().substring(lastIndexOf);//切割后缀名
+        if(substring.equalsIgnoreCase("jpg")||
+                substring.equalsIgnoreCase("png")||
+                substring.equalsIgnoreCase("gif")){
+
+        }
 
         String filename = file.getOriginalFilename();//获取源文件名称
         String uuidName = UploadUtils.getUUIDName(filename);//自定义的工具类获取随机文件名

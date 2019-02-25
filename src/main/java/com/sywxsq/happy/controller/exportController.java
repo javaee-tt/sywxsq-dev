@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
@@ -20,22 +19,32 @@ import java.util.List;
  * @create 2019-02-23 17:24
  */
 @RestController
-@RequestMapping("/exportController")
-public class exportController {
+@RequestMapping("/ExportController")
+public class ExportController {
 
     @Autowired
-    FriendService friendService;
+    private FriendService friendService;
 
+    /**
+     * 导出Excel
+     * @param response
+     */
     @RequestMapping("/exportExcel")
     public void exportExcel(HttpServletResponse response){
         //从数据库获取需要导出前100条的数据
         PageResult friend = friendService.findAllFriend(1, 100);//调用的是分页查询,可以自定义查询数据库数据
+        //从分页里面获取当前页的结果集
         List<Friend> rows = friend.getRows();//获取到数据库数据
-        //导出操作
+        //导出操作  调用工具类的方法
         //参数1: 需要导出的数据  参数2:标题  参数3:表名 参数4:映射的实体类  参数5:文件名  参数5:resposne
-        ExcelUtils.exportExcel(rows,"我的同学录","这是表名",Friend.class,"文件名.xls",response);
+        ExcelUtils.exportExcel(rows,"我的通讯录","这是表名",Friend.class,"文件名.xls",response);
     }
 
+    /**
+     * 导入Excel
+     * @param file
+     * @return
+     */
     @RequestMapping("/importExcel")
     public SywxsqResult importExcel(MultipartFile file){
         //解析excel

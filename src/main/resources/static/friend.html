@@ -23,6 +23,7 @@
     <!--导入模版/控制器/friend.js-->
     <script src="js/Friend.js"></script>
 </head>
+<!--ng-app定义模版  ng-controller定义控制器  ng-init初始化调用方法-->
 <body ng-app="myapp" ng-controller="FriendController" ng-init="reloadList();selectUserClassifyList()">
 
 <button class="btn btn-primary" data-toggle="modal" data-target="#addFriend" ng-click="updateClassifyStatus(true)">新增通讯录</button>

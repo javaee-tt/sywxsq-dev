@@ -2,6 +2,7 @@ package com.sywxsq.happy.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Date;
  * @author luokangtao
  * @create 2019-02-21 11:06
  */
-public class Classify {
+public class Classify implements Serializable {
 
     private long id; //主键id
 

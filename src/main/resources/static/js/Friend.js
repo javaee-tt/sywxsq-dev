@@ -1,9 +1,10 @@
+//app模版  pagination是分页插件
 var mymodule=angular.module("myapp",["pagination"]);
 
 
 //service层
 mymodule.service("uploadService",function ($http) {
-
+    //MultipartFile文件导入
     this.upload=function () {
         //基于html5中的对象获取(追加)上传文件
         var formData = new FormData();
@@ -12,7 +13,7 @@ mymodule.service("uploadService",function ($http) {
 
         return $http({
             method:"post",
-            url : "../exportController/importExcel",
+            url : "../ExportController/importExcel",//上传地址
             data : formData,
             headers : {'Content-Type' : undefined}, //上传文件必须是这个类型，默认text/plain  作用:相当于设置enctype="multipart/form-data"
             transformRequest : angular.identity  //对整个表单进行二进制序列化
@@ -21,7 +22,8 @@ mymodule.service("uploadService",function ($http) {
 });
 
 //controller层
-mymodule.controller("FriendController",function ($scope,$http,uploadService) {
+// 时间格式转换成字符串 首先要引入$filter过滤器，然后调用filter的方法
+mymodule.controller("FriendController",function ($scope,$http,$filter,uploadService) {
 
     $scope.entity={};
 
@@ -132,10 +134,11 @@ mymodule.controller("FriendController",function ($scope,$http,uploadService) {
         $scope.calssifyStatus=statu;
     }
 
+
     //导出excel数据
     $scope.exportExcel=function () {
         $http({
-            url: '../exportController/exportExcel',
+            url: '../ExportController/exportExcel',
             method: "GET",//接口方法
             params: {
                 //接口参数
@@ -151,8 +154,10 @@ mymodule.controller("FriendController",function ($scope,$http,uploadService) {
             document.body.appendChild(a);
             a.setAttribute('style', 'display:none');
             a.setAttribute('href', objectUrl);
-            var filename="同学录.xls";
-            a.setAttribute('download', filename);
+            $scope.today = new  Date();//获取当前时间
+            $scope.timeString = $filter('date')($scope.today, 'yyyy-MM-dd HH:mm:ss');//当前时间格式转成字符串
+            var filename="同学录"+$scope.timeString+".xls";//文件名+当前时间.后缀名
+            a.setAttribute('download', filename);//设置下载
             a.click();
             URL.revokeObjectURL(objectUrl);
         }).error(function (data, status, headers, config) {
