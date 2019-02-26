@@ -125,6 +125,13 @@
             <version>1.2.47</version>
         </dependency>
 
+        <!--邮箱发送-->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.5.2</version>
+        </dependency>
+
     </dependencies>
 
     <build>

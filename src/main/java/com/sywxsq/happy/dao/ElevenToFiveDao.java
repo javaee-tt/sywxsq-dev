@@ -3,6 +3,8 @@ package com.sywxsq.happy.dao;
 import com.sywxsq.happy.pojo.ElevenToFive;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 /**
  * 11选5
  * @author luokangtao
@@ -18,4 +20,11 @@ public interface ElevenToFiveDao {
      * @return
      */
     Integer addElevenToFive(ElevenToFive toFive);
+
+    /**
+     * 查询所有11选5
+     * @return
+     */
+    List<ElevenToFive> findAllElevenToFive();
+
 }

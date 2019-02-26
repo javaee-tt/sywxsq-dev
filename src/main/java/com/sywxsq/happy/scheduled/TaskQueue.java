@@ -24,7 +24,7 @@ public class TaskQueue {
     @Autowired
     private ElevenToFiveService elevenToFiveService;
 
-    @Scheduled(cron = "0 0/5 * * * ?")
+//    @Scheduled(cron = "0 0/5 * * * ?")
     public void addElevenToFive(){
         //初始化对象
         ElevenToFive toFive = new ElevenToFive();

@@ -16,4 +16,16 @@
           numberResult = #{numberResult}
     </insert>
 
+    <select id="findAllElevenToFive" resultType="com.sywxsq.happy.pojo.ElevenToFive">
+        SELECT
+            id,
+            endTime,
+            startTime,
+            numberResult
+        FROM
+            eleventofive
+        ORDER BY
+	        endTime DESC
+    </select>
+
 </mapper>
