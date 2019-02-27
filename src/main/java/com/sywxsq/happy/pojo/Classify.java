@@ -14,12 +14,12 @@ public class Classify implements Serializable {
 
     private long id; //主键id
 
-    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date createTime;//创建时间
 
     private String createBy;//创建人
 
-    @JsonFormat(pattern = "yyyy-MM-dd" ,timezone = "GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date updateTime;//修改时间
 
     private String updateBy;//修改人

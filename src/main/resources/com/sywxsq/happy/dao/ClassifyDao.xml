@@ -15,6 +15,7 @@
         userId = #{userId},
         classifyName = #{classifyName}
     </insert>
+
     <delete id="deleteClassify">
         DELETE
         FROM

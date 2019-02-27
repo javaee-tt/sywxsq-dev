@@ -26,19 +26,28 @@
 </head>
 <body ng-app="myapp" ng-controller="11x5Controller" ng-init="reloadList()">
 <div class="modal-body" style="margin: 0 auto">
-    <div class="input-group x5">
-
+    <div class="input-group x5" style="margin-top: 20px">
+        <span class="parse1234">{{parseOne}}</span>
+        <span class="parse1234">{{parsetwo}}</span>
+        <span class="parse1234">{{parseThree}}</span>
+        <span class="parse1234">{{parseFour}}</span>
+        <span class="parse12345">{{parseFive}}</span>
     </div>
-    <div class="input-group x5">
+    <div class="input-group x5" style="margin-top: 20px">
+        <span class="overtime">距离结束：{{timeString}}</span>
+    </div>
+    <div class="input-group x5" style="margin-top: 20px">
         <table class="table table-hover">
             <tr>
                 <td>序号</td>
-                <td>结束时间</td>
-                <td>下一轮开始时间</td>
+                <td>周期</td>
+                <td>结束开奖时间</td>
+                <td>下一轮开奖时间</td>
                 <td>开奖号码</td>
             </tr>
             <tr ng-repeat="pojo in list">
                 <td>{{$index+1}}</td>
+                <td>第{{pojo.id}}期</td>
                 <td>{{pojo.endTime}}</td>
                 <td>{{pojo.startTime}}</td>
                 <td>{{pojo.numberResult}}</td>

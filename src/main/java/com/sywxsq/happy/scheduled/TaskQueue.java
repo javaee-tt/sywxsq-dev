@@ -7,11 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
+ * 11选5 定时任务
  * @author luokangtao
  * @create 2019-02-25 18:01
  */
@@ -24,13 +24,12 @@ public class TaskQueue {
     @Autowired
     private ElevenToFiveService elevenToFiveService;
 
-//    @Scheduled(cron = "0 0/5 * * * ?")
+    @Scheduled(cron = "0 0/5 * * * ?")
     public void addElevenToFive(){
         //初始化对象
         ElevenToFive toFive = new ElevenToFive();
-        toFive.setEndTime(new Date());//本轮结束时间
+        toFive.setEndTime(new Date());//当前的结束时间
         toFive.setStartTime(new Date(new Date().getTime()+300000));//下一轮结束时间5分钟后
-
         //首先去redis里面查询 有没有设定的出奖顺序
         if(redisTemplate.boundValueOps("ElevenToFiveDao").get()==null){
             //自定义11位数字的数组
@@ -47,11 +46,9 @@ public class TaskQueue {
             Collections.shuffle(asList);//6  ...
             Collections.shuffle(asList);//7  ...
             Collections.shuffle(asList);//8  ...
-            System.out.println("随机后的数组:"+asList);//输出打乱后的数字
             List<Integer> subList = asList.subList(0, 5);//获取前5位数字
-            String toString = subList.toString();//转成字符串
-            System.out.println("取前五位数组:"+subList);//输出前5位数字
-            toFive.setNumberResult(toString);
+            String toString = subList.toString();//集合转成字符串
+            toFive.setNumberResult(toString);//保存到数据库
         }else {
             //查询redis里面的数组
             Object elevenToFive = redisTemplate.boundValueOps("ElevenToFiveDao").get();
@@ -60,14 +57,12 @@ public class TaskQueue {
             //转成字符串类型
             String toString = Arrays.toString(ints);
             toFive.setNumberResult(toString);
-            System.out.println("redis里面的数据:"+toString);
             //删除redis里面的出奖顺序
             redisTemplate.delete("ElevenToFiveDao");
         }
-
         //保存到数据库
         elevenToFiveService.addElevenToFive(toFive);
-        System.out.println("当前时间:"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        System.out.println("当前更新11选5的时间:"+new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
     }
 
 }
