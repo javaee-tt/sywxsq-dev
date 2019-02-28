@@ -24,7 +24,12 @@ public class TaskQueue {
     @Autowired
     private ElevenToFiveService elevenToFiveService;
 
-    @Scheduled(cron = "0 0/5 * * * ?")
+    /**
+     * (cron = "0 0/5 * * * ?") 每5分钟刷新一次
+     * (cron = "0 0/6 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * ?") 8点-23点 每5   分钟刷新一次
+     */
+//    @Scheduled(cron = "0 0/5 * * * ?")
+    @Scheduled(cron = "0 0/5 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * ?")
     public void addElevenToFive(){
         //初始化对象
         ElevenToFive toFive = new ElevenToFive();

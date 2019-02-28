@@ -1,5 +1,6 @@
 package com.sywxsq.happy.controller;
 
+import com.sywxsq.happy.pojo.ElevenToFive;
 import com.sywxsq.happy.pojo.PageResult;
 import com.sywxsq.happy.pojo.SywxsqException;
 import com.sywxsq.happy.pojo.SywxsqResult;
@@ -34,15 +35,9 @@ public class ElevenToFiveController {
      */
     @RequestMapping("/setElEleventToFiveValue")
     public SywxsqResult setElEleventToFive(String[] values){
-        //判断数组是否有重复的值
-        for(int i=0;i<values.length;i++){
-            if(i<4){
-                if(values[i].toString().equals(values[i+1].toString())){
-                    throw new SywxsqException("<"+values[i]+">是重复的值,数值是唯一不可重复的,取值范围应从1到11");
-                } } }
+        //数组转字符串
         String toString = Arrays.toString(values);
-
-        redisTemplate.boundValueOps("ElevenToFiveDao").set(values);
+//        redisTemplate.boundValueOps("ElevenToFiveDao").set(values);
         return new SywxsqResult(true,"您设置的开奖值是:"+toString);
     }
 
@@ -53,9 +48,17 @@ public class ElevenToFiveController {
      */
     @RequestMapping("/findAllElevenToFive")
     public SywxsqResult findAllElevenToFive(Integer pageNumber, Integer pageSize){
+        //分页查询全部11选5数据
         PageResult toFive = elevenToFiveService.findAllElevenToFive(pageNumber, pageSize);
+        //查询下一次出奖
+        ElevenToFive eleventoFive =elevenToFiveService.findNextStartTime();
+        //查询成功
         sywxsqResult =new SywxsqResult(true,"查询成功");
+        //添加分页查询结果
         sywxsqResult.setPageResult(toFive);
+        //查询下一次出奖日期
+        sywxsqResult.setElevenToFive(eleventoFive);
+        //返回结果集
         return sywxsqResult;
     }
 

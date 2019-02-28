@@ -24,8 +24,8 @@ mymodule.controller("11x5Controller",function ($scope,$http,$interval) {
                 $scope.paginationConf.totalItems=response.pageResult.total;
                 $scope.list=response.pageResult.rows;
 
-                //开奖号码:
-                var result=$scope.list[0].numberResult;
+                //页面展示的开奖号码:
+                var result=response.elevenToFive.numberResult;
                 //JSON格式转换成数组
                 var parse = JSON.parse(result);
                 //获取值
@@ -35,25 +35,34 @@ mymodule.controller("11x5Controller",function ($scope,$http,$interval) {
                 $scope.parseFour = parse[3];
                 $scope.parseFive = parse[4];
 
-                //计算出下一轮开奖时间
-                var startTime=new Date($scope.list[0].startTime).getTime();//下一轮开始时间毫秒值
-                var nowTime = new Date().getTime();//获取当前时间毫秒值
+                //如果下一轮开始时间不等于空
+                if(response.elevenToFive.startTime!=null){
 
-                //剩余时间 (开奖时间-当前时间)/1000 等于秒值
-                let secondes = Math.floor((startTime-nowTime)/1000);//毫秒值转换成秒值
-                //定时器  参数1:执行的函数 参数2:每1秒执行一次
+                    //计算出下一轮开奖时间
+                    var startTime=new Date(response.elevenToFive.startTime).getTime();//下一轮开始时间毫秒值
+                    var nowTime = new Date().getTime();//获取当前时间毫秒值
 
-                var time=$interval(function () {
-                    if(secondes>0){ //如果剩余时间大于0
-                        //时间递减
-                        secondes--;
-                        //时间格式化(自定义的方法)
-                        $scope.timeString=$scope.convertTimeString(secondes);
-                    }else{//结束时间递减
-                        $interval.cancel(time);//如果剩余时间不大于0则停止定时器
-                        $scope.findAllImages($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
-                    }
-                    },1000);
+
+                        //剩余时间 (开奖时间-当前时间)/1000 等于秒值 let是局部变量 不能用$scope定义(解决浏览器跳3秒的问题)
+                        let secondes = Math.floor((startTime-nowTime)/1000);//毫秒值转换成秒值
+                        //定时器  参数1:执行的函数 参数2:每1秒执行一次
+
+                        var time=$interval(function () {
+                            if(secondes>0){ //如果剩余时间大于0
+                                //时间递减
+                                secondes--;
+                                //时间格式化(自定义的方法)
+                                $scope.timeString=$scope.convertTimeString(secondes);
+                            }else{//结束时间递减
+                                $interval.cancel(time);//如果剩余时间不大于0则停止定时器
+                                $scope.reloadList();//数据变更就重新加载分页查询
+                            }
+                        },1000);
+
+                }else {
+                    //自定义字符串
+                    $scope.timeString="开奖时间08:00-23:00"
+                }
             }else {
                 response.message;
             }
@@ -97,49 +106,120 @@ mymodule.controller("11x5Controller",function ($scope,$http,$interval) {
     }
 
     //初始化默认值
-    $scope.toFiveValue={};
-    $scope.values=[];
-    //设置出奖值
+    $scope.toFiveValue={toFiveIds:[]};
+    //初始化多选值
+    $scope.toFiveList={
+        data:[{id:1,text:"1"},{id:2,text:"2"},{id:3,text:"3"},{id:4,text:"4"},{id:5,text:"5"},
+        {id:6,text:"6"},{id:7,text:"7"},{id:8,text:"8"},{id:9,text:"9"},{id:10,text:"10"},{id:11,text:"11"}]};
+
+    //设置自定义的出奖值
     $scope.setElEleventToFiveValue=function () {
-        var b = $scope.checkValues($scope.toFiveValue.parseOne);
-        var b1 = $scope.checkValues($scope.toFiveValue.parsetwo);
-        var b2 = $scope.checkValues($scope.toFiveValue.parseThree);
-        var b3 = $scope.checkValues($scope.toFiveValue.parseFour);
-        var b4 = $scope.checkValues($scope.toFiveValue.parseFive);
-        if(b==false||b1==false||b2==false||b3==false||b4==false){
-            return false;
+        var toFiveIds = $scope.toFiveValue.toFiveIds;
+        //已选择的长度
+        var length = toFiveIds.length;
+        if(length>5){
+            return alert("您已设置:["+length+"]位数,已超出限制,请删除["+(length-5)+"]位数")
         }
-        $scope.values.push(
-            $scope.toFiveValue.parseOne,
-            $scope.toFiveValue.parsetwo,
-            $scope.toFiveValue.parseThree,
-            $scope.toFiveValue.parseFour,
-            $scope.toFiveValue.parseFive);
+        if(length!=5){
+            return alert("您已设置:["+length+"]位数,请再设置"+(5-length)+"位出奖数值");
+        }else {
 
-        $http.post("../ElevenToFiveController/setElEleventToFiveValue?values="+$scope.values).success(function (response) {
-            if (response.success){
+            $scope.toFiveValue.parseOne=$scope.toFiveValue.toFiveIds[0].id;
+            $scope.toFiveValue.parsetwo=$scope.toFiveValue.toFiveIds[1].id;
+            $scope.toFiveValue.parseThree=$scope.toFiveValue.toFiveIds[2].id;
+            $scope.toFiveValue.parseFour=$scope.toFiveValue.toFiveIds[3].id;
+            $scope.toFiveValue.parseFive=$scope.toFiveValue.toFiveIds[4].id;
+
+            $http.post("../ElevenToFiveController/setElEleventToFiveValue?values="+$scope.toFiveValue.toFiveIds).success(function (response) {
+                if (response.success){
+                    alert(response.message);
+                    $scope.values=[];//清空数组
+                }else {
+                    alert(response.message);
+                    $scope.values=[];//清空数组
+
+                }}).error(function (response) {
                 alert(response.message);
                 $scope.values=[];//清空数组
-            }else {
-                alert(response.message);
-                $scope.values=[];//清空数组
+            })}}
 
-            }}).error(function (response) {
-            alert(response.message);
-            $scope.values=[];//清空数组
-        })}
 
-    //校验方法
-    $scope.checkValues=function(values){
-        if(values==null){
-            alert("不能传空值!");
-            return false;
-        }
-        if(values>12 || values<1){
-            alert("不能大于12或者小于1!");
-            return false;
-        }
-        return true;
-    }
+});
 
-})
+//angular.js整合select2
+mymodule.directive('select2', function () {
+    return {
+        restrict: 'A',
+        scope: {
+            config: '=',
+            ngModel: '=',
+            select2Model: '='
+        },
+        link: function (scope, element, attrs) {
+            // 初始化
+            var tagName = element[0].tagName,
+                config = {
+                    allowClear: true,
+                    multiple: !!attrs.multiple,
+                    placeholder: attrs.placeholder || ' '   // 修复不出现删除按钮的情况
+                };
+
+            // 生成select
+            if(tagName === 'SELECT') {
+                // 初始化
+                var $element = $(element);
+                delete config.multiple;
+
+                angular.extend(config, scope.config);
+                $element
+                    .prepend('<option value=""></option>')
+                    .val('')
+                    .select2(config);
+
+                // model - view
+                scope.$watch('ngModel', function (newVal) {
+                    setTimeout(function () {
+                        $element.find('[value^="?"]').remove();    // 清除错误的数据
+                        $element.select2('val', newVal);
+                    },0);
+                }, true);
+                return false;
+            }
+
+            // 处理input
+            if(tagName === 'INPUT') {
+                // 初始化
+                var $element = $(element);
+
+                // 获取内置配置
+                if(attrs.query) {
+                    scope.config = select2Query[attrs.query]();
+                }
+
+                // 动态生成select2
+                scope.$watch('config', function () {
+                    angular.extend(config, scope.config);
+                    $element.select2('destroy').select2(config);
+                }, true);
+
+                // view - model
+                $element.on('change', function () {
+                    scope.$apply(function () {
+                        scope.select2Model = $element.select2('data');
+                    });
+                });
+
+                // model - view
+                scope.$watch('select2Model', function (newVal) {
+                    $element.select2('data', newVal);
+                }, true);
+
+                // model - view
+                scope.$watch('ngModel', function (newVal) {
+                    // 跳过ajax方式以及多选情况
+                    if(config.ajax || config.multiple) { return false }
+
+                    $element.select2('val', newVal);
+                }, true);
+            }}}
+});

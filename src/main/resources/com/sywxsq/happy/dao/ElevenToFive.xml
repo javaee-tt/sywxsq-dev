@@ -28,4 +28,18 @@
 	        endTime DESC
     </select>
 
+    <select id="findNextStartTime" resultType="com.sywxsq.happy.pojo.ElevenToFive">
+        SELECT
+            id,
+            endTime,
+            startTime,
+            numberResult
+        FROM
+            eleventofive
+        ORDER BY
+            startTime DESC
+        LIMIT
+            0,1
+    </select>
+
 </mapper>

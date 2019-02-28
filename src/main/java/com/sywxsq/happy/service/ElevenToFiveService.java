@@ -9,6 +9,7 @@ import com.sywxsq.happy.pojo.PageResult;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,5 +45,18 @@ public class ElevenToFiveService {
         long total = page.getTotal();
         List<ElevenToFive> result = page.getResult();
         return new PageResult(total,result);
+    }
+
+    /**
+     * 查询下一次出奖的时间
+     * @return
+     */
+    public ElevenToFive findNextStartTime() {
+       ElevenToFive elevenToFive = elevenToFiveDao.findNextStartTime();
+       //如果下一轮开始时间小于当前时间
+       if(elevenToFive.getStartTime().getTime()<new Date().getTime()){
+           elevenToFive.setStartTime(null);
+       }
+        return elevenToFive;
     }
 }

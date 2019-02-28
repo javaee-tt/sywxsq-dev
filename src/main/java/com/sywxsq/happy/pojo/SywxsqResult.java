@@ -22,6 +22,16 @@ public class SywxsqResult implements Serializable {
 
     private PageResult pageResult;//分页查询结果
 
+    private ElevenToFive elevenToFive;//11选5
+
+    public ElevenToFive getElevenToFive() {
+        return elevenToFive;
+    }
+
+    public void setElevenToFive(ElevenToFive elevenToFive) {
+        this.elevenToFive = elevenToFive;
+    }
+
     public SywxsqResult(Boolean success, String message) {
         super();
         this.success = success;

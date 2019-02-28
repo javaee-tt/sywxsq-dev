@@ -27,4 +27,9 @@ public interface ElevenToFiveDao {
      */
     List<ElevenToFive> findAllElevenToFive();
 
+    /**
+     * 查询下一次出奖时间
+     * @return
+     */
+    ElevenToFive findNextStartTime();
 }
