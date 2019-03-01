@@ -23,7 +23,11 @@ public class ElevenToFiveService {
     @Resource
     private  ElevenToFiveDao elevenToFiveDao;
 
-
+    /**
+     * 新增11选5
+     * @param toFive
+     * @return
+     */
     public boolean addElevenToFive(ElevenToFive toFive) {
 
         Integer integer=elevenToFiveDao.addElevenToFive(toFive);

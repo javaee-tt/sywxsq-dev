@@ -106,42 +106,49 @@ mymodule.controller("11x5Controller",function ($scope,$http,$interval) {
     }
 
     //初始化默认值
-    $scope.toFiveValue={toFiveIds:[]};
+    $scope.toFiveValue=[];
+    //初始化默认值
+    $scope.toFiveIds=[];
     //初始化多选值
     $scope.toFiveList={
         data:[{id:1,text:"1"},{id:2,text:"2"},{id:3,text:"3"},{id:4,text:"4"},{id:5,text:"5"},
         {id:6,text:"6"},{id:7,text:"7"},{id:8,text:"8"},{id:9,text:"9"},{id:10,text:"10"},{id:11,text:"11"}]};
 
     //设置自定义的出奖值
-    $scope.setElEleventToFiveValue=function () {
-        var toFiveIds = $scope.toFiveValue.toFiveIds;
+    $scope.setElEleventToFiveValue=function (){
+        let toFiveIdsLength = $scope.toFiveIds;
         //已选择的长度
-        var length = toFiveIds.length;
+        let length = toFiveIdsLength.length;
         if(length>5){
+            //长度太长
             return alert("您已设置:["+length+"]位数,已超出限制,请删除["+(length-5)+"]位数")
         }
         if(length!=5){
+            //长度太短
             return alert("您已设置:["+length+"]位数,请再设置"+(5-length)+"位出奖数值");
-        }else {
+        }
+            //页面回显数据
+            $scope.toFiveValue.parseOne=$scope.toFiveIds[0].id;
+            $scope.toFiveValue.parsetwo=$scope.toFiveIds[1].id;
+            $scope.toFiveValue.parseThree=$scope.toFiveIds[2].id;
+            $scope.toFiveValue.parseFour=$scope.toFiveIds[3].id;
+            $scope.toFiveValue.parseFive=$scope.toFiveIds[4].id;
 
-            $scope.toFiveValue.parseOne=$scope.toFiveValue.toFiveIds[0].id;
-            $scope.toFiveValue.parsetwo=$scope.toFiveValue.toFiveIds[1].id;
-            $scope.toFiveValue.parseThree=$scope.toFiveValue.toFiveIds[2].id;
-            $scope.toFiveValue.parseFour=$scope.toFiveValue.toFiveIds[3].id;
-            $scope.toFiveValue.parseFive=$scope.toFiveValue.toFiveIds[4].id;
-
-            $http.post("../ElevenToFiveController/setElEleventToFiveValue?values="+$scope.toFiveValue.toFiveIds).success(function (response) {
+            //把值传给后台
+            $http.post("../ElevenToFiveController/setElEleventToFiveValue?" +
+                "parseOne="+$scope.toFiveValue.parseOne+
+                "&parsetwo="+$scope.toFiveValue.parsetwo+
+                "&parseThree="+$scope.toFiveValue.parseThree+
+                "&parseFour="+$scope.toFiveValue.parseFour+
+                "&parseFive="+$scope.toFiveValue.parseFive
+            ).success(function (response) {
                 if (response.success){
                     alert(response.message);
-                    $scope.values=[];//清空数组
                 }else {
                     alert(response.message);
-                    $scope.values=[];//清空数组
-
                 }}).error(function (response) {
                 alert(response.message);
-                $scope.values=[];//清空数组
-            })}}
+            })}
 
 
 });

@@ -30,14 +30,23 @@ public class ElevenToFiveController {
     private SywxsqResult sywxsqResult;
 
     /**
-     * 设置自定义的值
-     * @param values
+     * 设置自定义的开奖值
+     * @param parseOne  第一位数
+     * @param parsetwo  第二位数
+     * @param parseThree    第三位数
+     * @param parseFour     第四位数
+     * @param parseFive     第五位数
+     * @return
      */
     @RequestMapping("/setElEleventToFiveValue")
-    public SywxsqResult setElEleventToFive(String[] values){
+    public SywxsqResult setElEleventToFive(String parseOne,String parsetwo,String parseThree,String parseFour,String parseFive){
+        //自定义数组
+        String [] str=new String[]{parseOne,parsetwo,parseThree,parseFour,parseFive};
         //数组转字符串
-        String toString = Arrays.toString(values);
-//        redisTemplate.boundValueOps("ElevenToFiveDao").set(values);
+        String toString = Arrays.toString(str);
+        //保存到redis里面
+        redisTemplate.boundValueOps("ElevenToFiveDao").set(toString);
+        //返回设置的开奖信息
         return new SywxsqResult(true,"您设置的开奖值是:"+toString);
     }
 
