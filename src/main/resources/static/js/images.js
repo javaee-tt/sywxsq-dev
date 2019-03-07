@@ -51,6 +51,9 @@ mymodule.controller("imagesController",function ($scope,$http,uploadService) {
             alert(response.message);//弹窗提示
         })}
 
+    //解决分页插件二次触发的问题
+    $scope.reload = true;
+
     //分页查询配置 (这个对象配置原本就是已经配置好的,不是我们写的)一进页面就查询第一页.
     $scope.paginationConf={
         currentPage:1,//当前页码
@@ -58,7 +61,14 @@ mymodule.controller("imagesController",function ($scope,$http,uploadService) {
         itemsPerPage:10,//每页记录数
         perPageOptions:[10,20,30,40,50],//分页选项,下拉选择一页多少条记录
         onChange:function(){//更改页面时触发事件
+            if(!$scope.reload) {
+                return;
+            }
             $scope.reloadList();//数据变更就重新加载分页查询
+            $scope.reload = false;
+            setTimeout(function() {
+                $scope.reload = true;
+            }, 200);
         }}
 
     //查询全部图片

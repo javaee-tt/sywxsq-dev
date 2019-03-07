@@ -6,6 +6,9 @@ mymodule.controller("11x5Controller",function ($scope,$http,$interval) {
 
     $scope.entity={};//初始化
 
+    //解决分页插件二次触发的问题
+    $scope.reload = true;
+
     //分页查询配置 (这个对象配置原本就是已经配置好的,不是我们写的)一进页面就查询第一页.
     $scope.paginationConf={
         currentPage:1,//当前页码
@@ -13,7 +16,14 @@ mymodule.controller("11x5Controller",function ($scope,$http,$interval) {
         itemsPerPage:10,//每页记录数
         perPageOptions:[10,20,30,40,50],//分页选项,下拉选择一页多少条记录
         onChange:function(){//更改页面时触发事件
+            if(!$scope.reload) {
+                return;
+            }
             $scope.reloadList();//数据变更就重新加载分页查询
+            $scope.reload = false;
+            setTimeout(function() {
+                $scope.reload = true;
+            }, 200);
         }}
 
     //分页查询全部11选5
@@ -55,7 +65,9 @@ mymodule.controller("11x5Controller",function ($scope,$http,$interval) {
                                 $scope.timeString=$scope.convertTimeString(secondes);
                             }else{//结束时间递减
                                 $interval.cancel(time);//如果剩余时间不大于0则停止定时器
-                                $scope.reloadList();//数据变更就重新加载分页查询
+                                setTimeout(function() {
+                                    $scope.reloadList();//数据变更就重新加载分页查询
+                                }, 2000);//2秒后重新调用后台代码 setTimeout() 方法用于在指定的毫秒数后调用函数或计算表达式。
                             }
                         },1000);
 
