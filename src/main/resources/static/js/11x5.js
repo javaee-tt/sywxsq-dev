@@ -24,7 +24,7 @@ mymodule.controller("11x5Controller",function ($scope,$http,$interval) {
             setTimeout(function() {
                 $scope.reload = true;
             }, 200);
-        }}
+        }};
 
     //分页查询全部11选5
     $scope.findAllImages=function (pageNumber,pageSize) {
@@ -68,8 +68,7 @@ mymodule.controller("11x5Controller",function ($scope,$http,$interval) {
                                 setTimeout(function() {
                                     $scope.reloadList();//数据变更就重新加载分页查询
                                 }, 2000);//2秒后重新调用后台代码 setTimeout() 方法用于在指定的毫秒数后调用函数或计算表达式。
-                            }
-                        },1000);
+                            }},1000);
 
                 }else {
                     //自定义字符串
@@ -80,13 +79,13 @@ mymodule.controller("11x5Controller",function ($scope,$http,$interval) {
             }
         }).error(function (response) { //错误异常
             alert(response.message);//弹窗提示
-        })}
+        })};
 
     // 如果数据变更就重新加载  分页查询方法(请求/响应)
     $scope.reloadList=function(){
         ////分页查询方法(请求/响应)参数1:当前页码参数2:当前页有多少条数据
         $scope.findAllImages($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage)
-    }
+    };
 
     //抽取时间格式化方法 参数是: 总秒值
     $scope.convertTimeString=function (allseconds) {
@@ -115,7 +114,7 @@ mymodule.controller("11x5Controller",function ($scope,$http,$interval) {
             seconds="0"+seconds;
         }
         return timString+=hours+":"+minutes+":"+seconds;
-    }
+    };
 
     //初始化默认值
     $scope.toFiveValue=[];
@@ -160,7 +159,7 @@ mymodule.controller("11x5Controller",function ($scope,$http,$interval) {
                     alert(response.message);
                 }}).error(function (response) {
                 alert(response.message);
-            })}
+            })};
 
 
 });
@@ -203,7 +202,7 @@ mymodule.directive('select2', function () {
                     },0);
                 }, true);
                 return false;
-            }
+            };
 
             // 处理input
             if(tagName === 'INPUT') {
@@ -240,5 +239,5 @@ mymodule.directive('select2', function () {
 
                     $element.select2('val', newVal);
                 }, true);
-            }}}
+            }}};
 });

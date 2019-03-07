@@ -16,7 +16,7 @@ mymodule.controller("registryController", function ($scope, $http) {
                 alert(response.message);
             }}).error(function (response) {
             alert(response.message);
-        })}
+        })};
 
         //校验验证码
     $scope.checkEmailCode = function () {
@@ -29,7 +29,7 @@ mymodule.controller("registryController", function ($scope, $http) {
             }
             }).error(function (response) {
             alert(response.message);
-        })}
+        })};
 
 
 })

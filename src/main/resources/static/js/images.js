@@ -16,7 +16,7 @@ mymodule.service("uploadService",function ($http) {
             data : formData,
             headers : {'Content-Type' : undefined}, //上传文件必须是这个类型，默认text/plain  作用:相当于设置enctype="multipart/form-data"
             transformRequest : angular.identity  //对整个表单进行二进制序列化
-        })}
+        })};
 
 });
 
@@ -35,7 +35,7 @@ mymodule.controller("imagesController",function ($scope,$http,uploadService) {
             }}
             ).error(function (response) {//错误异常
             alert(response.message);//弹窗提示
-        })}
+        })};
 
     //图片上传
     $scope.uploadImages=function () {
@@ -49,7 +49,7 @@ mymodule.controller("imagesController",function ($scope,$http,uploadService) {
             }}
             ).error(function (response) { //错误异常
             alert(response.message);//弹窗提示
-        })}
+        })};
 
     //解决分页插件二次触发的问题
     $scope.reload = true;
@@ -69,7 +69,7 @@ mymodule.controller("imagesController",function ($scope,$http,uploadService) {
             setTimeout(function() {
                 $scope.reload = true;
             }, 200);
-        }}
+        }};
 
     //查询全部图片
     $scope.findAllImages=function (pageNumber,pageSize) {
@@ -83,13 +83,13 @@ mymodule.controller("imagesController",function ($scope,$http,uploadService) {
             }
         }).error(function (response) { //错误异常
                 alert(response.message);//弹窗提示
-            })}
+            })};
 
     // 如果数据变更就重新加载  分页查询方法(请求/响应)
     $scope.reloadList=function(){
         ////分页查询方法(请求/响应)参数1:当前页码参数2:当前页有多少条数据
         $scope.findAllImages($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage)
-    }
+    };
 
      //根据id删除图片和删除linux保存的图片
     $scope.deleteImages=function (id,imgUrl) {
@@ -102,11 +102,11 @@ mymodule.controller("imagesController",function ($scope,$http,uploadService) {
                     alert(response.message);
                 }}).error(function (response) {
                 alert(response.message);
-            })}}
+            })}};
 
 
     //图片放大效果
     $scope.imagesBig=function ($index) {
         $scope.imagesBigPlus=$scope.list[$index].imgUrl;
     }
-})
+});
