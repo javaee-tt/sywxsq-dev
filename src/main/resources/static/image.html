@@ -42,18 +42,22 @@
         <td>{{pojo.createTime}}</td>
         <td>{{pojo.createBy}}</td>
         <td>{{pojo.imgTitle}}</td>
-        <td><img src="{{pojo.imgUrl}}" ng-click="imagesBig($index)" width="100px" height="100px" data-toggle="modal" data-target="#imagesBig"/></td>
+        <td><img src="{{pojo.imgUrl}}" ng-click="imagesBig($index)" width="100px" height="100px" data-toggle="modal"
+                 data-target="#imagesBig"/></td>
         <td>{{pojo.imgDescription}}</td>
         <td>{{pojo.sort}}</td>
         <!--调用图片删除方法-->
-        <td><button ng-click="deleteImages(pojo.id,pojo.imgUrl)">删除</button>  <button>修改</button></td>
+        <td>
+            <button ng-click="deleteImages(pojo.id,pojo.imgUrl)">删除</button>
+            <button>修改</button>
+        </td>
     </tr>
 </table>
 <tm-pagination conf="paginationConf"></tm-pagination>
 
 <div class="modal fade" id="imagesBig" tabindex="-1" role="dialog" aria-labelledby="imagesBig" aria-hidden="true">
     <div class="modal-dialog">
-            <img src="{{imagesBigPlus}}" width="500px" height="500px"/>
+        <img src="{{imagesBigPlus}}" width="500px" height="500px"/>
     </div>
 </div>
 
@@ -69,17 +73,26 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label for="file">文件上传</label>
-                    <input type="file" id="file" />
+                    <input type="file" id="file"/>
                 </div>
                 <div class="form-group">
                     <img src="{{entity.imgUrl}}" width="200px" height="100px">
                 </div>
-                <button class="btn btn-primary" type="button" ng-click="uploadFile()" >上传</button> 
-                <ul class="list-group" style="list-style: none">
-                    <li>图片标题:<input type="text" ng-model="entity.imgTitle"></li>
-                    <li>图片描述:<input type="text" ng-model="entity.imgDescription"></li>
-                    <li>首页显示:<input type="text" ng-model="entity.sort" placeholder="数字,从小到大排序"></li>
-                </ul>
+                <button class="btn btn-primary" type="button" ng-click="uploadFile()">上传</button><br>
+                 
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon">图片标题:</span>
+                    <input type="text" class="form-control" ng-model="entity.imgTitle">
+                </div><br>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon">图片描述:</span>
+                    <input type="text" class="form-control" ng-model="entity.imgDescription">
+                </div><br>
+                <div class="input-group input-group-lg">
+                    <span class="input-group-addon">首页显示:</span>
+                    <input type="text" class="form-control" ng-model="entity.sort" placeholder="数字,从小到大排序">
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

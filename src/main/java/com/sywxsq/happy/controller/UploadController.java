@@ -9,8 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import java.io.IOException;
+
+
 
 /**
  * 上传文件
@@ -21,8 +22,10 @@ import java.io.IOException;
 @RequestMapping("/uploadController")
 public class UploadController {
 
+
     @Value("${FILE_IMAGES_URL}")
     private String FILE_IMAGES_URL;
+
 
     /**
      * 上传文件到linux
@@ -32,11 +35,13 @@ public class UploadController {
     @RequestMapping("/uploadImages")
     public SywxsqResult uploadImages(MultipartFile file){
 
-        int lastIndexOf = file.getName().lastIndexOf(".")+1;
+        //获取源文件名字  比如: xxx.jpg 获取到"."位置
+        int lastIndexOf = file.getOriginalFilename().lastIndexOf(".")+1;
         if(lastIndexOf==0){
-            throw new SywxsqException("文件格式有误"+file.getName());
+            throw new SywxsqException("文件格式有误"+file.getOriginalFilename());
         }
-        String substring = file.getName().substring(lastIndexOf);//切割后缀名
+        //获取后缀名 过滤文件格式
+        String substring = file.getOriginalFilename().substring(lastIndexOf);//切割后缀名
         if(substring.equalsIgnoreCase("jpg")||
                 substring.equalsIgnoreCase("png")||
                 substring.equalsIgnoreCase("gif")){
