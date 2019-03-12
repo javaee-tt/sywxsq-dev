@@ -13,15 +13,17 @@ import java.util.List;
  * 图片
  * @author luokangtao
  * @create 2019-02-14 11:00
+ * @RestController是Controller+ResponseBody结合
  */
-@RestController  //是Controller+ResponseBody结合
+@RestController
 @RequestMapping("/ImagesController")
 public class ImagesController {
 
     @Autowired
     private ImagesService imagesService;
 
-    private SywxsqResult sywxsqResult =null;//结果集
+    //结果集
+    private SywxsqResult sywxsqResult =null;
 
     /**
      * 添加图片
@@ -63,12 +65,13 @@ public class ImagesController {
      */
     @RequestMapping("/deleteImages")
     public SywxsqResult deleteImages(Integer id,String imgUrl){
-        if(id==null || id.equals("")){
+        if(id==null){
             throw new SywxsqException("id值不能为空");
         }
-        if(imgUrl==null||imgUrl.equals("")){
+        if(imgUrl==null||imgUrl.isEmpty()){
             throw  new SywxsqException("imgUrl不能为空");
         }
+        //调用方法
         boolean b=imagesService.deleteImages(id,imgUrl);
         if(b){
             sywxsqResult = new SywxsqResult(true,"删除图片成功");

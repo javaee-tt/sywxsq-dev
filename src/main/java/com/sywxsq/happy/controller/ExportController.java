@@ -31,10 +31,10 @@ public class ExportController {
      */
     @RequestMapping("/exportExcel")
     public void exportExcel(HttpServletResponse response){
-        //从数据库获取需要导出前100条的数据
-        PageResult friend = friendService.findAllFriend(1, 100);//调用的是分页查询,可以自定义查询数据库数据
-        //从分页里面获取当前页的结果集
-        List<Friend> rows = friend.getRows();//获取到数据库数据
+        //从数据库获取需要导出前100条的数据(调用的是分页查询,可以自定义查询数据库数据)
+        PageResult friend = friendService.findAllFriend(1, 100);
+        //从分页里面获取当前页的结果集(获取到数据库数据)
+        List<Friend> rows = friend.getRows();
         //导出操作  调用工具类的方法
         //参数1: 需要导出的数据  参数2:标题  参数3:表名 参数4:映射的实体类  参数5:文件名  参数5:resposne
         ExcelUtils.exportExcel(rows,"我的通讯录","这是表名",Friend.class,"文件名.xls",response);

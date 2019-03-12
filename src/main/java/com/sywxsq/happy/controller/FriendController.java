@@ -21,7 +21,8 @@ public class FriendController {
     @Autowired
     private FriendService friendService;
 
-    private SywxsqResult sywxsqResult =null;//结果集
+    //结果集
+    private SywxsqResult sywxsqResult =null;
 
     /**
      * 新增通讯录

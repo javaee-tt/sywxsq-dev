@@ -33,8 +33,10 @@ public class TaskQueue {
     public void addElevenToFive(){
         //初始化对象
         ElevenToFive toFive = new ElevenToFive();
-        toFive.setEndTime(new Date());//当前的结束时间
-        toFive.setStartTime(new Date(new Date().getTime()+300000));//下一轮结束时间5分钟后
+        //当前的结束时间
+        toFive.setEndTime(new Date());
+        //下一轮结束时间5分钟后()
+        toFive.setStartTime(new Date(System.currentTimeMillis()+300000));
         //首先去redis里面查询 有没有设定的出奖顺序
         if(redisTemplate.boundValueOps("ElevenToFiveDao").get()==null){
             //自定义11位数字的数组
@@ -42,18 +44,29 @@ public class TaskQueue {
             //初始化list集合
             ArrayList<Integer> list = new ArrayList<Integer>();
             //打乱数组并且转换成集合
-            List<Integer> asList = Ints.asList(ints);//0
-            Collections.shuffle(asList);//1  打乱
-            Collections.shuffle(asList);//2  打乱
-            Collections.shuffle(asList);//3  ...
-            Collections.shuffle(asList);//4  ...
-            Collections.shuffle(asList);//5  ...
-            Collections.shuffle(asList);//6  ...
-            Collections.shuffle(asList);//7  ...
-            Collections.shuffle(asList);//8  ...
-            List<Integer> subList = asList.subList(0, 5);//获取前5位数字
-            String toString = subList.toString();//集合转成字符串
-            toFive.setNumberResult(toString);//保存到数据库
+            List<Integer> asList = Ints.asList(ints);
+            //1  打乱
+            Collections.shuffle(asList);
+            //2  打乱
+            Collections.shuffle(asList);
+            //3  ...
+            Collections.shuffle(asList);
+            //4  ...
+            Collections.shuffle(asList);
+            //5  ...
+            Collections.shuffle(asList);
+            //6  ...
+            Collections.shuffle(asList);
+            //7  ...
+            Collections.shuffle(asList);
+            //8  ...
+            Collections.shuffle(asList);
+            //获取前5位数字
+            List<Integer> subList = asList.subList(0, 5);
+            //集合转成字符串
+            String toString = subList.toString();
+            //保存到数据库
+            toFive.setNumberResult(toString);
         }else {
             //查询redis里面的数组
             Object elevenToFive = redisTemplate.boundValueOps("ElevenToFiveDao").get();

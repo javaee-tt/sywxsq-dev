@@ -22,7 +22,8 @@ public class ClassifyController {
     @Autowired
     private ClassifyService classifyService;
 
-    private SywxsqResult sywxsqResult =null;//结果集
+    //结果集
+    private SywxsqResult sywxsqResult =null;
 
     /**
      * 查询用户的所有分类

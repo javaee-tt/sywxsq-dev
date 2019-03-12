@@ -21,8 +21,9 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/SendEmailController")
 public class SendEmailController {
 
+    //redis模版
     @Autowired
-    private RedisTemplate redisTemplate;//redis模版
+    private RedisTemplate redisTemplate;
 
     //随机验证码字符串
     private final String str = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
