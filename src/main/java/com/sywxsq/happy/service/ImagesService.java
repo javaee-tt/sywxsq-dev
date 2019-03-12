@@ -32,9 +32,13 @@ public class ImagesService {
      * @return
      */
     public PageResult findAllImages(Integer pageNumber, Integer pageSize) {
+        //分页插件
         PageHelper.startPage(pageNumber,pageSize);
+        //分页查询
         Page<Images> page = (Page<Images>) imagesDao.findAllImages();
+        //获取总记录数
         long total = page.getTotal();
+        //获取当前页结果集
         List<Images> result = page.getResult();
         return new PageResult(total,result);
     }

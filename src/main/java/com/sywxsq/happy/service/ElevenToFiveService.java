@@ -4,12 +4,9 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.sywxsq.happy.dao.ElevenToFiveDao;
 import com.sywxsq.happy.pojo.ElevenToFive;
-import com.sywxsq.happy.pojo.Images;
 import com.sywxsq.happy.pojo.PageResult;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,7 +26,7 @@ public class ElevenToFiveService {
      * @return
      */
     public boolean addElevenToFive(ElevenToFive toFive) {
-
+        //新增11选5记录
         Integer integer=elevenToFiveDao.addElevenToFive(toFive);
         if (integer == -1) {
             return false;
@@ -44,10 +41,15 @@ public class ElevenToFiveService {
      * @return
      */
     public PageResult findAllElevenToFive(Integer pageNumber, Integer pageSize) {
+        //分页工具
         PageHelper.startPage(pageNumber,pageSize);
+        //分页查询
         Page<ElevenToFive> page = (Page<ElevenToFive>) elevenToFiveDao.findAllElevenToFive();
+        //获取总记录数
         long total = page.getTotal();
+        //获取当前页结果集
         List<ElevenToFive> result = page.getResult();
+        //返回结果集
         return new PageResult(total,result);
     }
 
@@ -58,7 +60,7 @@ public class ElevenToFiveService {
     public ElevenToFive findNextStartTime() {
        ElevenToFive elevenToFive = elevenToFiveDao.findNextStartTime();
        //如果下一轮开始时间小于当前时间
-       if(elevenToFive.getStartTime().getTime()<new Date().getTime()){
+       if(elevenToFive.getStartTime().getTime()<System.currentTimeMillis()){
            elevenToFive.setStartTime(null);
        }
         return elevenToFive;
