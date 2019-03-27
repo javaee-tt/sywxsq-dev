@@ -1,15 +1,20 @@
-
+//定义ng-app模块
 var mymodule=angular.module("myapp",["pagination"]);
 
 //service层
 mymodule.service("uploadService",function ($http) {
 
-    this.upload=function () {
-        //基于html5中的对象获取(追加)上传文件
+    this.upload=function (imgTitle,imgDescription,sort) {
+        //基于html5中的对象获取(追加)上传文件 通过FormData构造函数创建一个空对象
         var formData = new FormData();
         //参数一：后端接收文件的参数名称 参数二：获取文件，其中file代表<input type="file" id="file" />中的id
         formData.append("file",file.files[0]);
-
+        //图片标题 (如果没值需要初始化一个值,不然后台会爆undefined)
+        formData.append("imgTitle",(imgTitle==undefined?"":imgTitle));
+        //图片详情 (如果没值需要初始化一个值,不然后台会爆undefined)
+        formData.append("imgDescription",(imgDescription==undefined?"":imgDescription));
+        //图片排序 (如果没值需要初始化一个值,不然后台会爆undefined)
+        formData.append("sort",(sort==undefined?"":sort));
         return $http({
             method:"post",
             url : "../uploadController/uploadImages",
@@ -17,7 +22,6 @@ mymodule.service("uploadService",function ($http) {
             headers : {'Content-Type' : undefined}, //上传文件必须是这个类型，默认text/plain  作用:相当于设置enctype="multipart/form-data"
             transformRequest : angular.identity  //对整个表单进行二进制序列化
         })};
-
 });
 
 //controller层
@@ -27,27 +31,16 @@ mymodule.controller("imagesController",function ($scope,$http,uploadService) {
 
     //图片上传功能
     $scope.uploadFile=function(){
-        uploadService.upload().success(function(response){
+        //调用service方法,并且代入所需参数
+        uploadService.upload($scope.entity.imgTitle,$scope.entity.imgDescription,$scope.entity.sort).success(function(response){
             if(response.success){//上传到linux成功
-                $scope.entity.imgUrl=response.message; //把返回来的图片地址赋值给广告图片地址
-            }else {
-                alert(response.message);//弹窗提示
-            }}
-            ).error(function (response) {//错误异常
-            alert(response.message);//弹窗提示
-        })};
-
-    //图片上传
-    $scope.uploadImages=function () {
-        $http.post("../ImagesController/addImages",$scope.entity).success(function (response) {
-            if(response.success){//上传成功
                 $scope.entity={};//新增成功后,清空数据
-                alert(response.message);//弹窗提示
+                alert(response.message); //把返回来的图片地址赋值给广告图片地址
                 $scope.reloadList();//重新加载分页查询
             }else {
                 alert(response.message);//弹窗提示
             }}
-            ).error(function (response) { //错误异常
+            ).error(function (response) {//错误异常
             alert(response.message);//弹窗提示
         })};
 
@@ -109,4 +102,74 @@ mymodule.controller("imagesController",function ($scope,$http,uploadService) {
     $scope.imagesBig=function ($index) {
         $scope.imagesBigPlus=$scope.list[$index].imgUrl;
     }
+
+    //html回显的图片 ==> 销毁预览的图片
+    $scope.destroyImage=function () {
+        console.log("执行了这个方法前:"+file.files[0]);
+        var files = document.getElementById("file");
+        files.outerHTML=file.outerHTML;
+        console.log("执行了这个方法后:"+file.files[0]);
+        //获取img标签信息
+        var img = document.getElementById("imgName");
+        //赋地址值
+        img.src ="";
+        //显示图片
+        img.style.display="none";
+    }
+
 });
+
+//html页面回显预览图片
+function previewImage(file) {
+    /*
+    * file：file控件
+    */
+    var tip = "格式有误,只支持上传jpg/png/gif的格式文件!"; // 设定弹窗提示信息
+    var filters = {
+        "jpeg" : "/9j/4",
+        "gif" : "R0lGOD",
+        "png" : "iVBORw"
+    }
+
+    if (window.FileReader) { // html5方案
+        for (var i=0, f; f = file.files[i]; i++) {
+            var fr = new FileReader();
+            fr.onload = function(e) {
+                var src = e.target.result;
+                if (!validateImg(src)) {
+                    alert(tip)
+                } else {
+                    showPrvImg(src); //展示图片
+                }
+            }
+            fr.readAsDataURL(f);
+        }
+    } else { // 降级处理
+        if ( !/\.jpg$|\.png$|\.gif$/i.test(file.value) ) {
+            alert(tip);
+        } else {
+            showPrvImg(file.value); //展示图片
+        }
+    }
+
+    //校验图片格式
+    function validateImg(data) {
+        var pos = data.indexOf(",") + 1;
+        for (var e in filters) {
+            if (data.indexOf(filters[e]) === pos) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    //html页面回显预览图片
+    function showPrvImg(src) {
+        //获取img标签信息
+        var img = document.getElementById("imgName");
+        //赋地址值
+        img.src = src;
+        //显示图片
+        img.style.display="block";
+    }
+}

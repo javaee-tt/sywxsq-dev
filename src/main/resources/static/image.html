@@ -67,18 +67,18 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="destroyImage()">&times;</button>
                 <h4 class="modal-title" id="addImagesLabel">新增图片</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label for="file">文件上传</label>
-                    <input type="file" id="file"/>
+                    <input type="file" id="file" onchange="previewImage(this)"/>
                 </div>
                 <div class="form-group">
-                    <img src="{{entity.imgUrl}}" width="200px" height="100px">
+                    <img id="imgName" style="width:200px;height:200px;display:none"/>
                 </div>
-                <button class="btn btn-primary" type="button" ng-click="uploadFile()">上传</button><br>
+                <!--<button class="btn btn-primary" type="button" ng-click="uploadFile()">上传</button><br>-->
                  
                 <div class="input-group input-group-lg">
                     <span class="input-group-addon">图片标题:</span>
@@ -95,8 +95,8 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                <button class="btn btn-primary" type="button" ng-click="uploadImages()">提交</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="destroyImage()">关闭</button>
+                <button class="btn btn-primary" type="button" ng-click="uploadFile()">提交</button>
             </div>
         </div>
     </div>

@@ -50,22 +50,30 @@ public class ImagesService {
      */
     @Transactional
     public boolean addImages(Images images) {
-
-        images.setCreateTime(new Date());//创建时间
-        images.setCreateBy("测试人");//创建人
-        images.setUserId("测试人");//用户id
-        if(images.getImgTitle()==null){ //如果图片标题等于null
-            images.setImgTitle(simpleDateFormat2.format(new Date()));//把当前时间yyyy-MM-dd设置为图片标题
+        //创建时间
+        images.setCreateTime(new Date());
+        //创建人
+        images.setCreateBy("测试人");
+        //用户id
+        images.setUserId("测试人");
+        //如果图片标题等于null
+        if(images.getImgTitle()==null){
+            //把当前时间yyyy-MM-dd设置为图片标题
+            images.setImgTitle(simpleDateFormat2.format(new Date()));
         }
-        if(images.getSort()!=null){//如果sort不等于null,则判断他是否重复
-            List<Images> list = imagesDao.exists(images);//查询sort是否已经存在
+        //如果sort不等于null,则判断他是否重复
+        if(images.getSort()!=null){
+            //查询sort是否已经存在
+            List<Images> list = imagesDao.exists(images);
             if(list.size()>0){
-              Integer integer = imagesDao.addSortOne(images);//等于和大于sort的全部+1
+                //等于和大于sort的全部+1
+              Integer integer = imagesDao.addSortOne(images);
               if(integer==-1){
                   throw new SywxsqException("大于或者等于sort的自增+1失败");
               }
             }
         }
+        //调用dao层的新增相册方法
         Integer integer = imagesDao.addImages(images);
         if (integer == -1) {
             return false;

@@ -1,7 +1,6 @@
 package com.sywxsq.happy.pojo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.io.Serializable;
 import java.util.Date;
 

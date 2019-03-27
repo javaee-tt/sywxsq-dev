@@ -33,7 +33,7 @@ public class SywxsqExceptionHandler implements Serializable {
     @ResponseBody
     @ExceptionHandler(IllegalArgumentException.class) //拦截到该异常信息
     public SywxsqResult IllegalArgumentException(Exception e){
-        logger.info("异常信息(接收非法参数):"+e.getMessage());//异常信息java.lang.IllegalArgumentException
+        logger.info("异常信息(异常表明向方法传递了一个不合法或不正确的参数):"+e.getMessage());//异常信息java.lang.IllegalArgumentException
         return  new SywxsqResult(false,"接收非法参数");
     }
 

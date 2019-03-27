@@ -26,7 +26,8 @@ public class ImagesController {
     private SywxsqResult sywxsqResult =null;
 
     /**
-     * 添加图片
+     * 新增图片(改良后调用这个方法: com.sywxsq.happy.controller.UploadController.uploadImages)
+     * 这个方法暂时不用
      * @param images
      * @return
      */
